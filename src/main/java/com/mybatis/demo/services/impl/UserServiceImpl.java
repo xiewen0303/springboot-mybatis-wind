@@ -19,8 +19,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     public Object findAllUser(int pageNum, int pageSize) {
-        Page<Object> objects = PageHelper.startPage(pageNum, pageSize);
-        User record = new User();
-        return userMapper.selectAllUser();
+        PageHelper.startPage(pageNum, pageSize);
+        return userMapper.selectAll();
     }
 }
