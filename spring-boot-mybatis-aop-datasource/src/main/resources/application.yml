@@ -49,7 +49,7 @@ spring:
 
 #mybatis:
 #  mapper-locations: classpath:mapping/*.xml
-#  type-aliases-package: com.mybatis.demo.model
+#  type-aliases-package: com.mybatis.*.model
 
 ##pagehelper分页插件
 #pagehelper:

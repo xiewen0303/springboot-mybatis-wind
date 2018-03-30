@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 @Configuration
-@MapperScan(basePackages = "com.mybatis")
+@MapperScan(basePackages = "com.mybatis",sqlSessionTemplateRef = "dynamicSqlSessionTemplate")
 public class DataSourceConfig {
 
     @Bean(name = "masterDataSource")
@@ -34,24 +34,24 @@ public class DataSourceConfig {
     }
 
 
-//    @Bean(name = "aTransactionManager")
-//    public DataSourceTransactionManager setTransactionManager(@Qualifier("aDataSource") DataSource dataSource) {
-//        return new DataSourceTransactionManager(dataSource);
-//    }
-//
-//    @Bean(name = "aSqlSessionFactory")
-//    public SqlSessionFactory setSqlSessionFactory(@Qualifier("aDataSource") DataSource dataSource) throws Exception {
-//        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-//        bean.setDataSource(dataSource);
-//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapping/a/*.xml"));
-//        return bean.getObject();
-//    }
+    @Bean(name = "transactionManager")
+    public DataSourceTransactionManager setTransactionManager(@Qualifier("dynamicDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
-//    @Primary
-//    @Bean(name = "aSqlSessionTemplate")
-//    public SqlSessionTemplate setSqlSessionTemplate(@Qualifier("aSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
-//        return new SqlSessionTemplate(sqlSessionFactory);
-//    }
+    @Bean(name = "dynamicSqlSessionFactory")
+    public SqlSessionFactory setSqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapping/*.xml"));
+        return bean.getObject();
+    }
+
+    @Primary
+    @Bean(name = "dynamicSqlSessionTemplate")
+    public SqlSessionTemplate setSqlSessionTemplate(@Qualifier("dynamicSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
 
     @Bean(name="dynamicDataSource")
     public DataSource dataSource(){

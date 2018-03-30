@@ -12,6 +12,4 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         logger.debug("数据源为:"+dbSource);
         return dbSource;
     }
-
-
 }

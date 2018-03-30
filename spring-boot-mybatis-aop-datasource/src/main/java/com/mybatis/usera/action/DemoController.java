@@ -1,9 +1,11 @@
 package com.mybatis.usera.action;
 
 import com.mybatis.usera.model.UserA;
+import com.mybatis.usera.services.IUserService;
 import com.mybatis.usera.services.impl.UserServiceImpl;
 import com.mybatis.userb.model.UserB;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DemoController {
 
     @Autowired
-    private UserServiceImpl userService;
+    @Qualifier("userService")
+    private IUserService userService;
 
     @ResponseBody
     @RequestMapping(value = "/add",produces = {"application/json;charset=UTF-8"})
